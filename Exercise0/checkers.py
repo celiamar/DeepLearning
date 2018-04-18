@@ -17,16 +17,18 @@ class Checkers:
         steps= (int)((self.resolution/self.tilesize)/2)
 
         oddrow= np.concatenate( (np.zeros(self.tilesize),np.ones(self.tilesize)), axis = 0)
+        oddrow= np.tile(oddrow, (steps))
+        oddrow= np.tile(oddrow, (self.tilesize,1))
         evenrow= np.concatenate( (np.ones(self.tilesize),np.zeros(self.tilesize)), axis = 0)
-        oddtemp= np.tile(oddrow, steps)
-        eventemp= np.tile(evenrow, steps)
+        evenrow = np.tile(evenrow, (steps))
+        evenrow = np.tile(evenrow, (self.tilesize,1))
 
-        tworows= np.concatenate((oddtemp, eventemp),axis = 0)
-        temp2=np.tile(tworows, steps)
-        self.output= np.reshape(temp2,[self.resolution,self.resolution])
+        tworows = np.vstack((oddrow, evenrow))
 
+        self.output = np.tile(tworows, (steps,1))
 
     def show(self):
         print(self.output)
         plt.imshow(self.output)
+        plt.gray()
         plt.show()
